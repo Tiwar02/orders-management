@@ -136,4 +136,13 @@ public class OrderController {
         return ordersByCustomer.map(ResponseEntity::ok).orElseGet( () -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("pages")
+    public ResponseEntity<List<Order>> getAllOrdersPaginable(@RequestParam int pageNumber, @RequestParam int pageSize) throws RequestException{
+        Optional<List<Order>> getOrders = Optional.ofNullable(orderService.getAllOrdersPageable(pageNumber,pageSize));
+        if (getOrders.isEmpty()){
+            throw new RequestException(HttpStatus.NOT_FOUND,"Ha ocurrido un error al obtener la lista");
+        }
+        return getOrders.map(ResponseEntity::ok).orElseGet( () -> ResponseEntity.notFound().build());
+    }
+
 }

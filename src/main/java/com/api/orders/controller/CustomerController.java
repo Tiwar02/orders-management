@@ -108,4 +108,13 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("pages")
+    public ResponseEntity<List<Customer>> getAllCustomersPaginable(@RequestParam int pageNumber, @RequestParam int pageSize) throws RequestException{
+        Optional<List<Customer>> getCustomers = Optional.ofNullable(customerService.getAllCustomersPageable(pageNumber, pageSize));
+        if (getCustomers.isEmpty()){
+            throw new RequestException(HttpStatus.NOT_FOUND,"Ha ocurrido un error al obtener la lista");
+        }
+        return getCustomers.map(ResponseEntity::ok).orElseGet( () -> ResponseEntity.notFound().build());
+    }
+
 }

@@ -6,6 +6,8 @@ import com.api.orders.model.Customer;
 import com.api.orders.model.Order;
 import com.api.orders.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +37,10 @@ public class CustomerService {
 
     public void deleteCustomer(Long id){
         customerRepository.deleteById(id);
+    }
+
+    public List<Customer> getAllCustomersPageable(int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        return customerRepository.findAll(pageable).getContent();
     }
 }

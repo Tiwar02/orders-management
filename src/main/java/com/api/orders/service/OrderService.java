@@ -1,8 +1,11 @@
 package com.api.orders.service;
 
+import com.api.orders.model.Customer;
 import com.api.orders.model.Order;
 import com.api.orders.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,5 +39,10 @@ public class OrderService {
 
     public List<Order> getOrderByCustomerId(Long id){
         return orderRepository.findOrderByCustomerId(id);
+    }
+
+    public List<Order> getAllOrdersPageable(int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        return orderRepository.findAll(pageable).getContent();
     }
 }

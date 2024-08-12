@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -130,6 +132,15 @@ public class CustomerRepositoryTest {
         Optional<Customer> customerReturn = customerRepository.findById(customer.getId());
 
         assertThat(customerReturn).isEmpty();
+    }
+
+
+    @Test
+    public void findAllCustomersPaging(){
+        Pageable firstPageWithThreeRecords = PageRequest.of(1,1);
+
+        List<Customer> customerList = customerRepository.findAll(firstPageWithThreeRecords).getContent();
+        System.out.println("Customer list = " + customerList);
     }
 
     /*@Test
