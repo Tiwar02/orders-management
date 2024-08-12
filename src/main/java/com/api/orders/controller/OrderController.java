@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -89,6 +90,7 @@ public class OrderController {
 
         Long selectCustomerId = selectedOrder.getCustomerId();
         Long customerId = selectedOrder.getCustomerId();
+        Date orderDate = selectedOrder.getOrderDate();
         if (order.getCustomerId() != null ){
             customerId = order.getCustomerId();
         }
@@ -96,6 +98,10 @@ public class OrderController {
         if (customerComp != 0){
             throw new RequestException(HttpStatus.BAD_REQUEST, "Id de cliente no valido");
         }
+        if (order.getOrderDate() != null){
+            orderDate = order.getOrderDate();
+        }
+        order.setOrderDate(orderDate);
         order.setCustomerId(customerId);
 
         Order updatedOrder =orderService.updateOrder(order);
