@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -28,14 +29,48 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Customer createCustomer(Customer customer){
+
+        if (customer.getEmail().isEmpty()){
+            throw new RequestException(HttpStatus.BAD_REQUEST, "Email can't be empty");
+        }
+
         return customerRepository.save(customer);
     }
 
     public Customer updateCustomer(Customer customer){
+
+        Customer selectedCustomer = getCustomerById(customer.getId());;
+
+        String firstName = selectedCustomer.getFirstName();
+        String lastName = selectedCustomer.getLastName();
+        String phone = selectedCustomer.getPhone();
+        String customerEmail = selectedCustomer.getEmail();
+        if(customer.getEmail() != null){
+            customerEmail = customer.getEmail();
+        }
+        if (Objects.equals(customer.getEmail(), "")){
+            customerEmail = selectedCustomer.getEmail();
+        }
+        if (customer.getFirstName() != null){
+            firstName = customer.getFirstName();
+        }
+        if (customer.getLastName() != null){
+            lastName = customer.getLastName();
+        }
+        if (customer.getPhone() != null){
+            phone = customer.getPhone();
+        }
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
+        customer.setPhone(phone);
+        customer.setEmail(customerEmail);
+
         return customerRepository.save(customer);
     }
 
     public void deleteCustomer(Long id){
+        Customer selectedCustomer = getCustomerById(id);
+
         customerRepository.deleteById(id);
     }
 

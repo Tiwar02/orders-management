@@ -34,60 +34,24 @@ public class CustomerController {
         if (id == null || id == 0)  {
             throw new RequestException(HttpStatus.BAD_REQUEST, "Id de cliente no valido");
         }
-        Optional<Customer> customer;
-        try{
-            customer = Optional.ofNullable(customerService.getCustomerById(id));
-        }catch (NoSuchElementException e){
-            throw new RequestException(HttpStatus.NOT_FOUND, "Cliente no encontrado ID: " + id);
-        }
+
+        Optional<Customer> customer = Optional.ofNullable(customerService.getCustomerById(id));
         return customer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build()) ;
     }
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) throws RequestException{
-        /*if(customer.getId()==null){
-            throw new RequestException(HttpStatus.BAD_REQUEST, "El id no puede ser aplicado");
-        }*/
-        if (customer.getEmail().isEmpty()){
-            throw new RequestException(HttpStatus.BAD_REQUEST, "El email no puede estar vacio");
-        }
+
         Customer createdCustomer = customerService.createCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCustomer);
     }
 
     @PatchMapping("edit/{id}")
-    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable Long id) throws RequestException{
-        if (id == null || id == 0)   {
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) throws RequestException{
+        if (customer.getId() == null || customer.getId() == 0)   {
             throw new RequestException(HttpStatus.BAD_REQUEST, "Id de cliente no valido");
         }
-        Customer selectedCustomer;
-        try {
-            selectedCustomer = customerService.getCustomerById(id);
-        } catch (NoSuchElementException e){
-            throw new RequestException(HttpStatus.NOT_FOUND, "El cliente no fue encontrado ID: " +id);
-        }
 
-        String firstName = selectedCustomer.getFirstName();
-        String lastName = selectedCustomer.getLastName();
-        String phone = selectedCustomer.getPhone();
-        String customerEmail = selectedCustomer.getEmail();
-        if(customer.getEmail() != null){
-            customerEmail = customer.getEmail();
-        }
-        if (customer.getFirstName() != null){
-            firstName = customer.getFirstName();
-        }
-        if (customer.getLastName() != null){
-            lastName = customer.getLastName();
-        }
-        if (customer.getPhone() != null){
-            phone = customer.getPhone();
-        }
-        customer.setFirstName(firstName);
-        customer.setLastName(lastName);
-        customer.setPhone(phone);
-        customer.setEmail(customerEmail);
-        customer.setId(id);
         Customer updatedCustomer = customerService.updateCustomer(customer);
         return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer);
     }
@@ -97,12 +61,7 @@ public class CustomerController {
         if (id == null || id == 0)   {
             throw new RequestException(HttpStatus.BAD_REQUEST, "Id de cliente no valido");
         }
-        Customer selectedCustomer;
-        try {
-            selectedCustomer = customerService.getCustomerById(id);
-        } catch (NoSuchElementException e){
-            throw new RequestException(HttpStatus.NOT_FOUND, "El cliente no fue encontrado ID: " +id);
-        }
+
         customerService.deleteCustomer(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
