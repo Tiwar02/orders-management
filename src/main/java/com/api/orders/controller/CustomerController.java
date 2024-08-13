@@ -3,8 +3,7 @@ package com.api.orders.controller;
 
 import com.api.orders.exception.RequestException;
 import com.api.orders.model.Customer;
-import com.api.orders.model.Order;
-import com.api.orders.service.CustomerService;
+import com.api.orders.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ import java.util.Optional;
 public class CustomerController {
 
     @Autowired
-    private CustomerService customerService;
+    private CustomerServiceImpl customerService;
 
     @GetMapping
     public ResponseEntity<List<Customer>> getAllCustomers() throws RequestException{

@@ -1,8 +1,8 @@
 package com.api.orders.service;
 
 import com.api.orders.model.Customer;
-import com.api.orders.model.Order;
 import com.api.orders.repository.CustomerRepository;
+import com.api.orders.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -27,7 +26,7 @@ public class CustomerServiceTests {
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private CustomerService customerService;
+    private CustomerServiceImpl customerService;
     private Customer customer;
 
     @BeforeEach

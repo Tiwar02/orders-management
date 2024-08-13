@@ -5,6 +5,8 @@ import com.api.orders.model.Order;
 import com.api.orders.repository.CustomerRepository;
 import com.api.orders.repository.OrderRepository;
 
+import com.api.orders.service.impl.CustomerServiceImpl;
+import com.api.orders.service.impl.OrderServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,10 +33,10 @@ public class OrderServiceTests {
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private OrderService orderService;
+    private OrderServiceImpl orderService;
 
     @InjectMocks
-    private CustomerService customerService;
+    private CustomerServiceImpl customerService;
 
     private Order order;
     private Customer customer;

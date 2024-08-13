@@ -2,16 +2,13 @@ package com.api.orders.controller;
 
 import com.api.orders.exception.RequestException;
 import com.api.orders.model.Order;
-import com.api.orders.service.OrderService;
-import jakarta.persistence.EntityNotFoundException;
-import org.aspectj.weaver.ast.Or;
+import com.api.orders.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,7 +19,7 @@ import java.util.Optional;
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
+    private OrderServiceImpl orderService;
 
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() throws RequestException{
