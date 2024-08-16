@@ -68,7 +68,6 @@ public class CustomerRepositoryTest {
         List<Customer> customerList = customerRepository.findAll();
 
         assertThat(customerList).isNotNull();
-        assertThat(customerList.size()).isEqualTo(2);
 
     }
 

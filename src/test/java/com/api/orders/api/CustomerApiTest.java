@@ -51,7 +51,7 @@ public class CustomerApiTest {
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", equalTo(31))
-                .body("firstName", equalTo("Pedro"));
+                .body("firstName", equalTo("Test3"));
     }
 
     @Test

@@ -32,6 +32,7 @@ public class CustomerServiceTests {
     @BeforeEach
     public void init(){
         customer = Customer.builder()
+                .id(1L)
                 .firstName("Emilio")
                 .lastName("Perez")
                 .email("emilio@gmail.com")
@@ -62,10 +63,17 @@ public class CustomerServiceTests {
     @Test
     @DisplayName("Test for update a customer")
     public void CustomerService_UpdateCustomer_ReturnCustomer(){
+        Customer customer1 = Customer.builder()
+                .id(1L)
+                .firstName("Emilio")
+                .lastName("Perez")
+                .email("emilio@gmail.com")
+                .phone("3018997865")
+                .build();
+        when(customerRepository.findById(1L)).thenReturn(Optional.ofNullable(customer1));
+        when(customerRepository.save(customer1)).thenReturn(customer1);
 
-        when(customerRepository.save(customer)).thenReturn(customer);
-
-        Customer  updatedCustomer = customerService.updateCustomer(customer);
+        Customer  updatedCustomer = customerService.updateCustomer(customer1);
 
         assertThat(updatedCustomer).isNotNull();
     }
@@ -74,6 +82,7 @@ public class CustomerServiceTests {
     @DisplayName("Test for delete customer")
     public void CustomerService_DeleteCustomer_ReturnVoid(){
         Long customerId = 1L;
+        when(customerRepository.findById(1L)).thenReturn(Optional.ofNullable(customer));
 
         assertAll( () -> customerService.deleteCustomer(customerId));
     }

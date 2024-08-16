@@ -109,11 +109,13 @@ public class OrderServiceTests {
         Date date = formatter.parse(dateInString);
 
         order = Order.builder()
+                .id(1L)
                 .orderDate(date)
                 .totalAmount(BigDecimal.valueOf(12000))
                 .customerId(1L)
                 .build();
 
+        given(orderRepository.findById(order.getId())).willReturn(Optional.ofNullable(order));
         given(orderRepository.save(order)).willReturn(order);
 
         Order updatedOrder = orderService.updateOrder(order);
@@ -130,11 +132,13 @@ public class OrderServiceTests {
         Date date = formatter.parse(dateInString);
 
         order = Order.builder()
+                .id(1L)
                 .orderDate(date)
                 .totalAmount(BigDecimal.valueOf(12000))
                 .customerId(1L)
                 .build();
 
+        given(orderRepository.findById(order.getId())).willReturn(Optional.ofNullable(order));
 
         assertAll(() -> orderService.deleteOrder(1L));
 
